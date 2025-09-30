@@ -8,6 +8,10 @@ const nextConfig = {
   outputFileTracingIncludes: {
     "/articles/*": ["./app/articles/**/*.mdx"],
   },
+  // Optimize for static generation
+  experimental: {
+    staticGenerationRetryCount: 3,
+  },
 };
 
 const withMDX = createMDX({

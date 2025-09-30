@@ -6,6 +6,10 @@ import { formatDate } from '@/lib/formatDate';
 import { ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
 
+// Force static generation at build time
+export const dynamic = 'force-static';
+export const revalidate = false;
+
 export const metadata: Metadata = {
   title: 'Articles',
   description:
