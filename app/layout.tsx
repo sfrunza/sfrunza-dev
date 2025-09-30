@@ -1,3 +1,4 @@
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Layout } from '@/components/layout';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -60,6 +61,7 @@ export default function RootLayout({
           </div>
         </Providers>
       </body>
+      <SpeedInsights />
     </html>
   );
 }
