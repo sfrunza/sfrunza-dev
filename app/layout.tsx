@@ -37,9 +37,7 @@ export const metadata: Metadata = {
   },
   description: "I\'m Sergiu, a software engineer based in Boston, MA.",
   alternates: {
-    types: {
-      'application/rss+xml': `${process.env.NEXT_PUBLIC_SITE_URL}/feed.xml`,
-    },
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL}`,
   },
 };
 
