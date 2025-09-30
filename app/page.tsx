@@ -1,103 +1,270 @@
-import Image from "next/image";
+import {
+  GitHubIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  XIcon,
+} from "@/components/social-icons";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import logoAirbnb from "@/images/logos/airbnb.svg";
+import logoFacebook from "@/images/logos/facebook.svg";
+import logoPlanetaria from "@/images/logos/planetaria.svg";
+import logoStarbucks from "@/images/logos/starbucks.svg";
+import { type ArticleWithSlug, getAllArticles } from "@/lib/articles";
+import { formatDate } from "@/lib/formatDate";
+import { cn } from "@/lib/utils";
+import {
+  ArrowDownIcon,
+  BriefcaseBusinessIcon,
+  ChevronRightIcon,
+  MailIcon,
+} from "lucide-react";
+import Image, { type ImageProps } from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+function Article({ article }: { article: ArticleWithSlug }) {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <Link href={`/articles/${article.slug}`} className="group">
+      <Card className="h-full transition-all border-none duration-200 hover:bg-accent hover:text-accent-foreground">
+        <CardHeader>
+          <div
+            className={cn(
+              "font-mono",
+              "relative z-10 order-first mb-3 flex items-center text-sm text-muted-foreground",
+              true && "pl-3.5",
+            )}
+          >
+            <span
+              className="absolute inset-y-0 left-0 flex items-center"
+              aria-hidden="true"
+            >
+              <span className="h-4 w-0.5 rounded-full bg-muted-foreground" />
+            </span>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            {formatDate(article.date)}
+          </div>
+          <CardTitle>{article.title}</CardTitle>
+          <CardDescription>{article.description}</CardDescription>
+        </CardHeader>
+        <CardFooter>
+          <Button variant="link" className="cursor-pointer">
+            Read article
+            <ChevronRightIcon />
+          </Button>
+        </CardFooter>
+      </Card>
+    </Link>
+  );
+}
+
+function SocialLink({
+  icon: Icon,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof Link> & {
+  icon: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <Link className="group -m-1 p-1" {...props}>
+      <Icon className="h-6 w-6 fill-muted-foreground transition group-hover:fill-primary" />
+    </Link>
+  );
+}
+
+function Newsletter() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <MailIcon className="h-6 w-6 flex-none text-muted-foreground" />
+          Stay up to date
+        </CardTitle>
+        <CardDescription>
+          Get notified when I publish something new, and unsubscribe at any
+          time.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form action="/thank-you">
+          <div className="mt-6 flex items-center">
+            <span className="flex min-w-0 flex-auto p-px">
+              <Input
+                type="email"
+                placeholder="Email address"
+                aria-label="Email address"
+                required
+              />
+            </span>
+            <Button type="submit" className="ml-4 flex-none">
+              Join
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
+
+interface Role {
+  company: string;
+  title: string;
+  logo: ImageProps["src"];
+  start: string | { label: string; dateTime: string };
+  end: string | { label: string; dateTime: string };
+}
+
+function Role({ role }: { role: Role }) {
+  let startLabel =
+    typeof role.start === "string" ? role.start : role.start.label;
+  let startDate =
+    typeof role.start === "string" ? role.start : role.start.dateTime;
+
+  let endLabel = typeof role.end === "string" ? role.end : role.end.label;
+  let endDate = typeof role.end === "string" ? role.end : role.end.dateTime;
+
+  return (
+    <li className="flex gap-4">
+      <div className="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-full shadow-md">
+        <Image src={role.logo} alt="" className="h-7 w-7" unoptimized />
+      </div>
+      <dl className="flex flex-auto flex-wrap gap-x-2">
+        <dt className="sr-only">Company</dt>
+        <dd className="w-full flex-none text-sm font-medium">{role.company}</dd>
+        <dt className="sr-only">Role</dt>
+        <dd className="text-xs text-muted-foreground">{role.title}</dd>
+        <dt className="sr-only">Date</dt>
+        <dd
+          className="ml-auto text-xs text-muted-foreground"
+          aria-label={`${startLabel} until ${endLabel}`}
+        >
+          <time dateTime={startDate}>{startLabel}</time>{" "}
+          <span aria-hidden="true">—</span>{" "}
+          <time dateTime={endDate}>{endLabel}</time>
+        </dd>
+      </dl>
+    </li>
+  );
+}
+
+function Resume() {
+  let resume: Array<Role> = [
+    {
+      company: "Planetaria",
+      title: "CEO",
+      logo: logoPlanetaria,
+      start: "2019",
+      end: {
+        label: "Present",
+        dateTime: new Date().getFullYear().toString(),
+      },
+    },
+    {
+      company: "Airbnb",
+      title: "Product Designer",
+      logo: logoAirbnb,
+      start: "2014",
+      end: "2019",
+    },
+    {
+      company: "Facebook",
+      title: "iOS Software Engineer",
+      logo: logoFacebook,
+      start: "2011",
+      end: "2014",
+    },
+    {
+      company: "Starbucks",
+      title: "Shift Supervisor",
+      logo: logoStarbucks,
+      start: "2008",
+      end: "2011",
+    },
+  ];
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <BriefcaseBusinessIcon className="h-6 w-6 flex-none text-muted-foreground" />
+          Work
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ol className="mt-6 space-y-4">
+          {resume.map((role, roleIndex) => (
+            <Role key={roleIndex} role={role} />
+          ))}
+        </ol>
+        <Button variant="secondary" className="mt-6 w-full" asChild>
+          <Link href="#">
+            Download CV
+            <ArrowDownIcon />
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default async function Home() {
+  let articles = (await getAllArticles()).slice(0, 4);
+
+  return (
+    <>
+      <section className="border-b">
+        <div className="max-w-5xl mx-auto border-l border-r px-10 py-18 bg-[linear-gradient(90deg,var(--muted)_1px,transparent_1px),linear-gradient(var(--muted)_1px,transparent_1px)] bg-[size:18px_18px]">
+          <code className="text-xs text-center font-mono text-muted-foreground">
+            v1.0.0
+          </code>
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+            Software developer, founder, and amateur astronaut.
+          </h1>
+          <p className="mt-6 text-base text-muted-foreground">
+            I&apos;m Sergiu, a software developer and entrepreneur based in
+            Boston, MA. I&apos;m the founder and CEO of Planetaria, where we
+            develop technologies that empower regular people to explore the
+            world on their own terms.
+          </p>
+          <div className="mt-6 flex gap-6">
+            <SocialLink href="#" aria-label="Follow on X" icon={XIcon} />
+            <SocialLink
+              href="#"
+              aria-label="Follow on Instagram"
+              icon={InstagramIcon}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <SocialLink
+              href="#"
+              aria-label="Follow on GitHub"
+              icon={GitHubIcon}
+            />
+            <SocialLink
+              href="#"
+              aria-label="Follow on LinkedIn"
+              icon={LinkedInIcon}
+            />
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+      <section>
+        <div className="max-w-5xl mx-auto border-l border-r px-4 py-6 md:px-8 md:py-10 grid grid-cols-1 gap-y-20 lg:grid-cols-2">
+          <div className="flex flex-col gap-4">
+            {articles.map((article) => (
+              <Article key={article.slug} article={article} />
+            ))}
+          </div>
+          <div className="space-y-10 lg:pl-16 xl:pl-24">
+            <Newsletter />
+            <Resume />
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
