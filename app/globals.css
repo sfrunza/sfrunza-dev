@@ -1,6 +1,6 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "./prism.css" layer(components);
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './prism.css' layer(components);
 @plugin '@tailwindcss/typography';
 
 @custom-variant dark (&:is(.dark *));

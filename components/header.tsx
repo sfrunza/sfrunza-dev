@@ -36,10 +36,9 @@ function DesktopNavigation(props: React.ComponentPropsWithoutRef<'nav'>) {
   return (
     <nav {...props}>
       <ul className="flex rounded-md text-sm font-medium">
-        <NavItem href="/about">About</NavItem>
+        <NavItem href="/">Home</NavItem>
         <NavItem href="/projects">Projects</NavItem>
         <NavItem href="/articles">Articles</NavItem>
-        <NavItem href="/uses">Uses</NavItem>
       </ul>
     </nav>
   );

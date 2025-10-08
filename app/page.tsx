@@ -1,69 +1,16 @@
-import {
-  GitHubIcon,
-  InstagramIcon,
-  LinkedInIcon,
-  XIcon,
-} from "@/components/social-icons";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import logoAirbnb from "@/images/logos/airbnb.svg";
-import logoFacebook from "@/images/logos/facebook.svg";
-import logoPlanetaria from "@/images/logos/planetaria.svg";
-import logoStarbucks from "@/images/logos/starbucks.svg";
-import { type ArticleWithSlug, getAllArticles } from "@/lib/articles";
-import { formatDate } from "@/lib/formatDate";
-import { cn } from "@/lib/utils";
-import {
-  ArrowDownIcon,
-  BriefcaseBusinessIcon,
-  ChevronRightIcon,
-  MailIcon,
-} from "lucide-react";
-import Image, { type ImageProps } from "next/image";
-import Link from "next/link";
-
-function Article({ article }: { article: ArticleWithSlug }) {
-  return (
-    <Link href={`/articles/${article.slug}`} className="group">
-      <Card className="h-full transition-all border-none duration-200 hover:bg-accent hover:text-accent-foreground">
-        <CardHeader>
-          <div
-            className={cn(
-              "font-mono",
-              "relative z-10 order-first mb-3 flex items-center text-sm text-muted-foreground",
-              true && "pl-3.5",
-            )}
-          >
-            <span
-              className="absolute inset-y-0 left-0 flex items-center"
-              aria-hidden="true"
-            >
-              <span className="h-4 w-0.5 rounded-full bg-muted-foreground" />
-            </span>
-
-            {formatDate(article.date)}
-          </div>
-          <CardTitle>{article.title}</CardTitle>
-          <CardDescription>{article.description}</CardDescription>
-        </CardHeader>
-        <CardFooter>
-          <Button variant="link" className="cursor-pointer">
-            Read article
-            <ChevronRightIcon />
-          </Button>
-        </CardFooter>
-      </Card>
-    </Link>
-  );
-}
+import { Article } from '@/components/article';
+import { GitHubIcon, LinkedInIcon, XIcon } from '@/components/social-icons';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import logoAirbnb from '@/images/logos/airbnb.svg';
+import logoFacebook from '@/images/logos/facebook.svg';
+import logoPlanetaria from '@/images/logos/planetaria.svg';
+import logoStarbucks from '@/images/logos/starbucks.svg';
+import portraitImage from '@/images/portrait-2.jpeg';
+import { getAllArticles } from '@/lib/articles';
+import { ArrowDownIcon, BriefcaseBusinessIcon } from 'lucide-react';
+import Image, { type ImageProps } from 'next/image';
+import Link from 'next/link';
 
 function SocialLink({
   icon: Icon,
@@ -78,56 +25,22 @@ function SocialLink({
   );
 }
 
-function Newsletter() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <MailIcon className="h-6 w-6 flex-none text-muted-foreground" />
-          Stay up to date
-        </CardTitle>
-        <CardDescription>
-          Get notified when I publish something new, and unsubscribe at any
-          time.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form action="/thank-you">
-          <div className="mt-6 flex items-center">
-            <span className="flex min-w-0 flex-auto p-px">
-              <Input
-                type="email"
-                placeholder="Email address"
-                aria-label="Email address"
-                required
-              />
-            </span>
-            <Button type="submit" className="ml-4 flex-none">
-              Join
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
-  );
-}
-
 interface Role {
   company: string;
   title: string;
-  logo: ImageProps["src"];
+  logo: ImageProps['src'];
   start: string | { label: string; dateTime: string };
   end: string | { label: string; dateTime: string };
 }
 
 function Role({ role }: { role: Role }) {
   let startLabel =
-    typeof role.start === "string" ? role.start : role.start.label;
+    typeof role.start === 'string' ? role.start : role.start.label;
   let startDate =
-    typeof role.start === "string" ? role.start : role.start.dateTime;
+    typeof role.start === 'string' ? role.start : role.start.dateTime;
 
-  let endLabel = typeof role.end === "string" ? role.end : role.end.label;
-  let endDate = typeof role.end === "string" ? role.end : role.end.dateTime;
+  let endLabel = typeof role.end === 'string' ? role.end : role.end.label;
+  let endDate = typeof role.end === 'string' ? role.end : role.end.dateTime;
 
   return (
     <li className="flex gap-4">
@@ -144,8 +57,8 @@ function Role({ role }: { role: Role }) {
           className="ml-auto text-xs text-muted-foreground"
           aria-label={`${startLabel} until ${endLabel}`}
         >
-          <time dateTime={startDate}>{startLabel}</time>{" "}
-          <span aria-hidden="true">—</span>{" "}
+          <time dateTime={startDate}>{startLabel}</time>{' '}
+          <span aria-hidden="true">—</span>{' '}
           <time dateTime={endDate}>{endLabel}</time>
         </dd>
       </dl>
@@ -156,35 +69,35 @@ function Role({ role }: { role: Role }) {
 function Resume() {
   let resume: Array<Role> = [
     {
-      company: "Planetaria",
-      title: "CEO",
+      company: 'Planetaria',
+      title: 'CEO',
       logo: logoPlanetaria,
-      start: "2019",
+      start: '2019',
       end: {
-        label: "Present",
+        label: 'Present',
         dateTime: new Date().getFullYear().toString(),
       },
     },
     {
-      company: "Airbnb",
-      title: "Product Designer",
+      company: 'Airbnb',
+      title: 'Product Designer',
       logo: logoAirbnb,
-      start: "2014",
-      end: "2019",
+      start: '2014',
+      end: '2019',
     },
     {
-      company: "Facebook",
-      title: "iOS Software Engineer",
+      company: 'Facebook',
+      title: 'iOS Software Engineer',
       logo: logoFacebook,
-      start: "2011",
-      end: "2014",
+      start: '2011',
+      end: '2014',
     },
     {
-      company: "Starbucks",
-      title: "Shift Supervisor",
+      company: 'Starbucks',
+      title: 'Shift Supervisor',
       logo: logoStarbucks,
-      start: "2008",
-      end: "2011",
+      start: '2008',
+      end: '2011',
     },
   ];
 
@@ -204,7 +117,7 @@ function Resume() {
         </ol>
         <Button variant="secondary" className="mt-6 w-full" asChild>
           <Link href="#">
-            Download CV
+            Download Resume
             <ArrowDownIcon />
           </Link>
         </Button>
@@ -233,35 +146,101 @@ export default async function Home() {
             world on their own terms.
           </p>
           <div className="mt-6 flex gap-6">
-            <SocialLink href="#" aria-label="Follow on X" icon={XIcon} />
             <SocialLink
-              href="#"
-              aria-label="Follow on Instagram"
-              icon={InstagramIcon}
+              href="https://x.com/s_frunza"
+              aria-label="Follow on X"
+              icon={XIcon}
+              target="_blank"
+              rel="noopener noreferrer"
             />
             <SocialLink
-              href="#"
+              href="https://github.com/sfrunza"
               aria-label="Follow on GitHub"
               icon={GitHubIcon}
+              target="_blank"
+              rel="noopener noreferrer"
             />
             <SocialLink
-              href="#"
+              href="https://www.linkedin.com/in/sergiufrunza"
               aria-label="Follow on LinkedIn"
               icon={LinkedInIcon}
+              target="_blank"
+              rel="noopener noreferrer"
             />
           </div>
         </div>
       </section>
-      <section>
-        <div className="max-w-5xl mx-auto border-l border-r px-4 py-6 md:px-8 md:py-10 grid grid-cols-1 gap-y-20 lg:grid-cols-2">
-          <div className="flex flex-col gap-4">
-            {articles.map((article) => (
-              <Article key={article.slug} article={article} />
-            ))}
+      <section className="border-b">
+        <div className="max-w-5xl mx-auto border-l border-r">
+          <div className="grid lg:grid-cols-[1fr_auto] justify-items-center max-lg:divide-y">
+            <Image
+              src={portraitImage}
+              alt="profile image"
+              title="profile image"
+              width={175}
+              height={175}
+              className="aspect-square bg-background object-cover"
+            />
+            <div className="flex lg:order-first w-full flex-col max-lg:py-6 max-lg:border-t px-6 justify-center items-start h-full">
+              <h2 className="font-bold tracking-tight text-2xl">
+                Here&apos;s who I am & what I do
+              </h2>
+              <p className="mt-6 max-w-2xl text-base text-muted-foreground">
+                Hello, I&apos;m Sergiu, a Full-Stack Web Developer based in
+                Boston. I have passion for creating innovative and engaging web
+                apps.
+              </p>
+            </div>
           </div>
-          <div className="space-y-10 lg:pl-16 xl:pl-24">
-            <Newsletter />
-            <Resume />
+        </div>
+      </section>
+      <section>
+        <div className="max-w-5xl mx-auto border-l border-r">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:divide-x max-lg:divide-y">
+            <div className="flex flex-col divide-y">
+              {articles.map((article) => (
+                <Article key={article.slug} article={article} />
+              ))}
+            </div>
+            <div className="relative pb-8 bg-[linear-gradient(90deg,var(--muted)_1px,transparent_1px),linear-gradient(var(--muted)_1px,transparent_1px)] bg-[size:6px_6px]">
+              <div className="bg-background border-b p-6 flex flex-wrap gap-10">
+                {new Array(10).fill(0).map((_, index) => {
+                  return (
+                    <div className="size-12 aspect-square" key={index}>
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="-10.5 -9.45 21 18.9"
+                        fill="#087ea4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-full self-center flex origin-center transition-all ease-in-out"
+                      >
+                        <circle cx="0" cy="0" r="2" fill="#087ea4"></circle>
+                        <g stroke="#087ea4" strokeWidth="1" fill="none">
+                          <ellipse rx="10" ry="4.5"></ellipse>
+                          <ellipse
+                            rx="10"
+                            ry="4.5"
+                            transform="rotate(60)"
+                          ></ellipse>
+                          <ellipse
+                            rx="10"
+                            ry="4.5"
+                            transform="rotate(120)"
+                          ></ellipse>
+                        </g>
+                      </svg>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="p-4">
+                <Resume />
+              </div>
+              <code className="text-xs font-mono text-muted-foreground absolute bottom-4 right-4">
+                resume.json
+              </code>
+            </div>
           </div>
         </div>
       </section>

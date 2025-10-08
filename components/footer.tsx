@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GitHubIcon, InstagramIcon, LinkedInIcon, XIcon } from './social-icons';
+import { GitHubIcon, LinkedInIcon, XIcon } from './social-icons';
 
 export function Footer() {
   return (
@@ -10,21 +10,26 @@ export function Footer() {
           Sergiu Frunza. All rights reserved.
         </p>
         <div className="flex gap-6">
-          <SocialLink href="#" aria-label="Follow on X" icon={XIcon} />
           <SocialLink
-            href="#"
-            aria-label="Follow on Instagram"
-            icon={InstagramIcon}
+            href="https://x.com/s_frunza"
+            aria-label="Follow on X"
+            icon={XIcon}
+            target="_blank"
+            rel="noopener noreferrer"
           />
           <SocialLink
-            href="#"
+            href="https://github.com/sfrunza"
             aria-label="Follow on GitHub"
             icon={GitHubIcon}
+            target="_blank"
+            rel="noopener noreferrer"
           />
           <SocialLink
-            href="#"
+            href="https://www.linkedin.com/in/sergiufrunza"
             aria-label="Follow on LinkedIn"
             icon={LinkedInIcon}
+            target="_blank"
+            rel="noopener noreferrer"
           />
         </div>
       </section>

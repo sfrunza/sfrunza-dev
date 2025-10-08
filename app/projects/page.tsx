@@ -1,61 +1,24 @@
-import { type Metadata } from "next";
-import Image from "next/image";
-import logoAnimaginary from "@/images/logos/animaginary.svg";
-import logoCosmos from "@/images/logos/cosmos.svg";
-import logoHelioStream from "@/images/logos/helio-stream.svg";
-import logoOpenShuttle from "@/images/logos/open-shuttle.svg";
-import logoPlanetaria from "@/images/logos/planetaria.svg";
-import { cn } from "@/lib/utils";
-import { LinkIcon } from "lucide-react";
-import Link from "next/link";
+import imageHopper from '@/assets/projects/hopper-calendar-clone.png';
+import { GitHubIcon } from '@/components/social-icons';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { ExternalLinkIcon } from 'lucide-react';
+import { type Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const projects = [
   {
-    name: "Planetaria",
-    description:
-      "Creating technology to empower civilians to explore space on their own terms.",
-    link: { href: "http://planetaria.tech", label: "planetaria.tech" },
-    logo: logoPlanetaria,
-  },
-  {
-    name: "Animaginary",
-    description:
-      "High performance web animation library, hand-written in optimized WASM.",
-    link: { href: "#", label: "github.com" },
-    logo: logoAnimaginary,
-  },
-  {
-    name: "HelioStream",
-    description:
-      "Real-time video streaming library, optimized for interstellar transmission.",
-    link: { href: "#", label: "github.com" },
-    logo: logoHelioStream,
-  },
-  {
-    name: "cosmOS",
-    description:
-      "The operating system that powers our Planetaria space shuttles.",
-    link: { href: "#", label: "github.com" },
-    logo: logoCosmos,
-  },
-  {
-    name: "OpenShuttle",
-    description:
-      "The schematics for the first rocket I designed that successfully made it to orbit.",
-    link: { href: "#", label: "github.com" },
-    logo: logoOpenShuttle,
-  },
-  {
-    name: "OpenShuttle1",
-    description:
-      "The schematics for the first rocket I designed that successfully made it to orbit.",
-    link: { href: "#", label: "github.com" },
-    logo: logoOpenShuttle,
+    name: "Hopper's calendar clone",
+    description: "A clone of Hopper's calendar with rates and availability.",
+    githubLink: 'https://github.com/sfrunza/hopper-calendar-clone',
+    livePreviewLink: 'https://hopper-calendar-clone.pages.dev',
+    image: imageHopper,
   },
 ];
 
 export const metadata: Metadata = {
-  title: "Projects",
+  title: 'Projects',
   description: "Things I've made trying to put my dent in the universe.",
   alternates: {
     canonical: {
@@ -101,10 +64,6 @@ export default function Projects() {
           </code>
           <div className="p-6 sm:p-8 space-y-2 border-b border-dashed relative">
             <h2 className="text-2xl font-bold">Projects</h2>
-            <p className="text-muted-foreground max-w-2xl">
-              We are the creators, maintainers, and contributors of some of the
-              most critical infrastructure projects in the JavaScript ecosystem.
-            </p>
           </div>
           <ul
             role="list"
@@ -114,30 +73,51 @@ export default function Projects() {
               <li
                 key={project.name}
                 className={cn(
-                  "border-r border-b p-4 transition-colors group flex flex-col gap-2",
-                  "last:border-r-0 last:border-b-0",
-                  "sm:[&:nth-last-child(-n+2)]:border-b-0 sm:last:border-r-0",
-                  "lg:[&:nth-child(3n)]:border-r-0 lg:[&:nth-last-child(-n+3)]:border-b-0",
-                  "hover:bg-accent",
+                  'border-r border-b transition-colors group flex flex-col justify-between relative',
+                  'last:border-r-0 last:border-b-0',
+                  'sm:[&:nth-last-child(-n+2)]:border-b-0 sm:last:border-r-0',
+                  'lg:[&:nth-child(3n)]:border-r-0 lg:[&:nth-last-child(-n+3)]:border-b-0',
+                  'hover:bg-accent'
                 )}
               >
-                <Image
-                  src={project.logo}
-                  alt=""
-                  className="h-8 w-8"
-                  unoptimized
-                />
-                <h3 className="font-bold text-lg">{project.name}</h3>
-                <p className="flex-grow">{project.description}</p>
-                <Link
-                  href={project.link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative z-10 mt-6 flex text-sm font-medium text-muted-foreground transition group-hover:text-primary"
-                >
-                  <LinkIcon className="h-5 w-5 flex-none" />
-                  <span className="ml-2">{project.link.label}</span>
-                </Link>
+                {project.image && (
+                  <div className="relative h-96 md:h-48 w-full">
+                    <Image
+                      fill
+                      src={project.image}
+                      alt={project.name}
+                      objectFit="cover"
+                      objectPosition="center"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div className="p-4">
+                  <h3 className="font-bold text-lg">{project.name}</h3>
+                  <p className="flex-grow">{project.description}</p>
+                </div>
+                <div className="flex gap-2 p-4 border-t border-border/40">
+                  <Button asChild variant="outline">
+                    <Link
+                      href={project.githubLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      GitHub
+                      <GitHubIcon />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline">
+                    <Link
+                      href={project.livePreviewLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Live preview
+                      <ExternalLinkIcon />
+                    </Link>
+                  </Button>
+                </div>
               </li>
             ))}
           </ul>
