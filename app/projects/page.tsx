@@ -1,19 +1,35 @@
 import imageHopper from '@/assets/projects/hopper-calendar-clone.png';
+import imagePhoenix from '@/assets/projects/phoenix-movers.png';
 import { GitHubIcon } from '@/components/social-icons';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ExternalLinkIcon } from 'lucide-react';
 import { type Metadata } from 'next';
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 
-const projects = [
+interface Project {
+  name: string;
+  description: string;
+  githubLink?: string | null;
+  livePreviewLink: string;
+  image: StaticImageData;
+}
+
+const projects: Project[] = [
   {
     name: "Hopper's calendar clone",
     description: "A clone of Hopper's calendar with rates and availability.",
     githubLink: 'https://github.com/sfrunza/hopper-calendar-clone',
     livePreviewLink: 'https://hopper-calendar-clone.pages.dev',
     image: imageHopper,
+  },
+  {
+    name: 'Phoenix Movers Website',
+    description: 'A website for Phoenix Movers, a local moving company.',
+    githubLink: null,
+    livePreviewLink: 'https://www.gophoenixmoving.com/',
+    image: imagePhoenix,
   },
 ];
 
@@ -86,9 +102,8 @@ export default function Projects() {
                       fill
                       src={project.image}
                       alt={project.name}
-                      objectFit="cover"
-                      objectPosition="center"
                       loading="lazy"
+                      className="object-cover object-center"
                     />
                   </div>
                 )}
@@ -97,16 +112,18 @@ export default function Projects() {
                   <p className="flex-grow">{project.description}</p>
                 </div>
                 <div className="flex gap-2 p-4 border-t border-border/40">
-                  <Button asChild variant="outline">
-                    <Link
-                      href={project.githubLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      GitHub
-                      <GitHubIcon />
-                    </Link>
-                  </Button>
+                  {project.githubLink && (
+                    <Button asChild variant="outline">
+                      <Link
+                        href={project.githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        GitHub
+                        <GitHubIcon />
+                      </Link>
+                    </Button>
+                  )}
                   <Button asChild variant="outline">
                     <Link
                       href={project.livePreviewLink}
