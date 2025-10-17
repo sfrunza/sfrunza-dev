@@ -31,6 +31,13 @@ const projects: Project[] = [
     livePreviewLink: 'https://www.gophoenixmoving.com/',
     image: imagePhoenix,
   },
+  {
+    name: 'Mutli-step Form',
+    description: 'A multi-step form build with react and reack-hook-form',
+    githubLink: 'https://github.com/sfrunza/multistep-form',
+    livePreviewLink: 'https://multistep-form-6rb.pages.dev/',
+    image: imageHopper,
+  },
 ];
 
 export const metadata: Metadata = {
